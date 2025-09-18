@@ -1,0 +1,62 @@
+main
+	add a0,zr,text1		; carrega o endereço do primeiro texto em a0
+	add a1,zr,text2		; carrega o endereço do segundo texto em a1
+	add a2,zr,text3		; carrega o endereço do terceiro texto em a2
+	add a3,zr,text4		; carrega o endereço do quarto texto em a3
+
+loop
+	ldb v1,a0		    ; lê o próximo caractere do texto1
+	stw v1,zr,0xf006	; envia o caractere para a saída
+	beq v1,zr,end		; se encontrou fim da string, vai para end
+	add a0,a0,1		    ; avança para o próximo caractere
+	beq zr,zr,loop		; volta para o início do laço
+
+end
+	add v1,zr,10		; envia um "enter" (quebra de linha)
+	stw v1,zr,0xf006      
+
+loop1
+	ldb v1,a1		    ; lê o próximo caractere do texto2
+	stw v1,zr,0xf006	; envia o caractere para a saída
+	beq v1,zr,end1		; se encontrou fim da string, vai para end1
+	add a1,a1,1		    ; avança para o próximo caractere
+	beq zr,zr,loop1		
+
+end1
+	add v1,zr,10		; envia uma nova linha
+	stw v1,zr,0xf006      
+
+loop2
+	ldb v1,a2		    ; lê o próximo caractere do texto3
+	stw v1,zr,0xf006	; envia o caractere para saída
+	beq v1,zr,end2		; se chegou no fim da string, vai para end2
+	add a2,a2,1		    ; avança para o próximo caractere
+	beq zr,zr,loop2		
+
+end2
+	add v1,zr,10		; quebra de linha
+	stw v1,zr,0xf006      
+
+loop3
+	ldb v1,a3		    ; lê o próximo caractere do texto4
+	stw v1,zr,0xf006	; escreve na saída
+	beq v1,zr,end3		; se encontrou fim, vai para end3
+	add a3,a3,1		    ; avança para o próximo caractere
+	beq zr,zr,loop3		
+
+end3
+	add v1,zr,10		; envia a última quebra de linha
+	stw v1,zr,0xf006
+	hlt 			        ; fim do programa
+
+text1	
+	"Pedro"
+
+text2
+	"Francisco"
+
+text3
+	"Leo ..."
+
+text4
+	"Bernardo ..."
