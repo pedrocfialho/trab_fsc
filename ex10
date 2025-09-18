@@ -1,4 +1,3 @@
-
 ;   a:0x40
 ;   e:0x44
 ;   i:0x48
@@ -19,20 +18,20 @@ main
 
 ; coloca os valores ASCII das vogais em registradores para comparação
     add v7,zr,97         ; 'a'
-    add v8,zr,101        ; 'e'
-    add a2,zr,105        ; 'i'
-    add a3,zr,111        ; 'o'
-    add a4,zr,117        ; 'u'
+    add v0,zr,101        ; 'e'
+    add v1,zr,105        ; 'i'
+    add v2,zr,111        ; 'o'
+    add v3,zr,117        ; 'u'
 
 ; executa o loop
 loop
     beq v1,zr,store      ; quando a contagem de caracteres acabar, salva os resultados
     ldb r14,a0           ; r14 = byte no endereço de a0
     beq r14,v7,inc_a
-    beq r14,v8,inc_e
-    beq r14,a2,inc_i
-    beq r14,a3,inc_o
-    beq r14,a4,inc_u
+    beq r14,v0,inc_e
+    beq r14,v1,inc_i
+    beq r14,v2,inc_o
+    beq r14,v3,inc_u
 
 next_char
     add a0,a0,1          ; avança para o próximo caractere
