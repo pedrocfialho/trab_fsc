@@ -1,0 +1,59 @@
+
+main
+	add a0,zr,text1		; a0 aponta para text1
+	add a1,zr,text2		; a1 aponta para text2
+	add a2,zr,text3		; a2 aponta para text3
+	add a3,zr,text4		; a3 aponta para text4
+
+loop
+	ldb v1,a0		; v1 = byte no endereço de a0
+	stw v1,zr,0xf006	; imprime o caractere
+	beq v1,zr,end		; se v1 é nulo, encerra
+	add a0,a0,1		; avança para o próximo caractere
+	beq zr,zr,loop		; repete o processo
+end
+	add v1,zr,10		; armazena o caractere de nova linha
+	stw v1,zr,0xf006      
+
+loop1
+	ldb v2,a1		; v2 = byte no endereço de a1
+	stw v2,zr,0xf006	; exibe o caractere
+	beq v2,zr,end1		; se v2 é nulo, finaliza
+	add a1,a1,1		; a1 aponta para o próximo byte
+	beq zr,zr,loop1		; volta para o laço
+end1
+	add v2,zr,10		; armazena a quebra de linha
+	stw v2,zr,0xf006      
+
+loop2
+	ldb v3,a2		; v3 = byte no endereço de a2
+	stw v3,zr,0xf006	; exibe o caractere
+	beq v3,zr,end2		; se v3 é nulo, finaliza a exibição
+	add a2,a2,1		; avança para o próximo caractere
+	beq zr,zr,loop2		; repete a ação
+end2
+	add v3,zr,10		; armazena o caractere de nova linha
+	stw v3,zr,0xf006      
+
+loop3
+	ldb v4,a3		; v4 = byte no endereço de a3
+	stw v4,zr,0xf006	; exibe o caractere
+	beq v4,zr,end3		; se v4 é nulo, a tarefa está concluída
+	add a3,a3,1		; move o ponteiro para o próximo caractere
+	beq zr,zr,loop3		; continua o loop
+end3
+	add v4,zr,10		; adiciona o caractere de nova linha
+	stw v4,zr,0xf006
+	hlt 			; interrompe a execução      
+
+text1	
+	"Francisco Reis "
+
+text2
+	"Bernardo LAcerda "
+
+text3
+	"Leonardo Azambuja "
+
+text4
+	"Pedro Fialho"
