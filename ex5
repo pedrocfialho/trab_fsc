@@ -1,0 +1,38 @@
+main
+
+    add a0,zr,0x60        ; a0 começa em 0x60 (primeiro endereço da faixa)
+    add v7,zr,0x70        ; v7 define o limite inicial (endereço final da varredura)
+    add v8,zr,0x72        ; v8 marca o segundo limite da faixa
+    add v6,zr,10          ; valor de referência para comparar
+
+fora
+    bge a0,v7,done        ; se a0 já passou do limite, encerra
+    add a1,a0,0           ; copia a0 para a1
+    add a1,a1,2           ; avança a1 para o próximo elemento
+
+dentro
+    bge a1,v8,next_i      ; se a1 passou do limite, pula para o próximo i
+
+    ldw v1,a0             ; carrega o valor do endereço apontado por a0
+    ldw v2,a1             ; carrega o valor do endereço apontado por a1
+
+    add v3,zr             ; zera v3
+    add v3,v1             ; soma o primeiro valor
+    add v3,v2             ; soma o segundo valor
+
+    beq v3,v6,found       ; se a soma for igual ao valor de referência, achou
+
+    add a1,a1,2           ; avança para o próximo valor de a1
+    beq zr,zr,dentro      ; volta para continuar o laço interno
+
+next_i
+    add a0,a0,2           ; avança a0 para o próximo elemento
+    beq zr,zr,fora        ; volta para o laço externo
+
+found
+    stw a0,zr,0x80        ; guarda o endereço de a0 em 0x80
+    stw a1,zr,0x90        ; guarda o endereço de a1 em 0x90
+    hlt                  ; para a execução
+
+done
+    hlt                  ; finaliza o programa
