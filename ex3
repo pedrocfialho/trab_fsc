@@ -1,21 +1,21 @@
+main
+	add v1,zr,1      ; v1 é o max
+	add v5,zr,25
+	add v8,zr,78
+	add v3,zr,0x40   ; vetor
+	add v4,zr,0x80   ; fim do vetor
+	stw v5,zr,0x42
+	stw v8,zr,0x70 
 
+loop 
+	ldw v6,v3,0x0    ; carrega v[0] para v6
+	blt v6,v1,continuo
+	add v1,v6,0      ; atualiza o max
+continuo 
+	add v3,v3,2      ; avança para o próximo elemento
+	beq v3,v4,endloop
+	beq zr,zr,loop
 
-main    
-    ldw v1,zr,n       ; lê N da memória e guarda em v1
-    add v2,zr,1       ; começa com o primeiro ímpar (1)
-    add v3,zr         ; zera o contador de endereços
-    add v4,zr         ; zera o contador de números
-  
-loop1    
-    stw v2,zr,0xf000  ; exibe o valor atual de v2   
-    add v2,v2,2       ; calcula o próximo número ímpar
-    add v3,v3,2       ; soma para avançar para o próximo endereço (2 bytes)
-    beq v4,v1,endloop1
-    add v4,v4,1       ; incrementa o contador de números gravados    
-    beq zr,zr,loop1   ; volta para o loop até terminar N valores
-endloop1
-
-    hlt 	           ; fim do programa
-
-n
-    5
+endloop 
+	stw v1,zr,0x90
+	hlt
