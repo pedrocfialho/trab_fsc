@@ -1,0 +1,69 @@
+
+;   a:0x40
+;   e:0x44
+;   i:0x48
+;   o:0x50
+;   u:0x52
+
+main
+    add a0,zr,0x60 ; define o início da palavra em (0x60)
+  
+    ldw v1,zr,0x58 ; carrega a quantidade de caracteres em (0x58)
+
+; inicializa os contadores
+    add v2,zr,0          ; contador para 'a'
+    add v3,zr,0          ; contador para 'e'
+    add v4,zr,0          ; contador para 'i'
+    add v5,zr,0          ; contador para 'o'
+    add v6,zr,0          ; contador para 'u'
+
+; coloca os valores ASCII das vogais em registradores para comparação
+    add v7,zr,97         ; 'a'
+    add v8,zr,101        ; 'e'
+    add a2,zr,105        ; 'i'
+    add a3,zr,111        ; 'o'
+    add a4,zr,117        ; 'u'
+
+; executa o loop
+loop
+    beq v1,zr,store      ; quando a contagem de caracteres acabar, salva os resultados
+    ldb r14,a0           ; r14 = byte no endereço de a0
+    beq r14,v7,inc_a
+    beq r14,v8,inc_e
+    beq r14,a2,inc_i
+    beq r14,a3,inc_o
+    beq r14,a4,inc_u
+
+next_char
+    add a0,a0,1          ; avança para o próximo caractere
+    sub v1,v1,1          ; decrementa a contagem de caracteres
+    beq zr,zr,loop
+
+inc_a
+    add v2,v2,1
+    beq zr,zr,next_char
+
+inc_e
+    add v3,v3,1
+    beq zr,zr,next_char
+
+inc_i
+    add v4,v4,1
+    beq zr,zr,next_char
+
+inc_o
+    add v5,v5,1
+    beq zr,zr,next_char
+
+inc_u
+    add v6,v6,1
+    beq zr,zr,next_char
+
+; armazena os resultados na memória
+store
+    stw v2,zr,0x40       ; armazena o contador de A
+    stw v3,zr,0x44       ; armazena o contador de E
+    stw v4,zr,0x48       ; armazena o contador de I
+    stw v5,zr,0x50       ; armazena o contador de O
+    stw v6,zr,0x52       ; armazena o contador de U
+    hlt
