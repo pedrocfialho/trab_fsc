@@ -1,0 +1,21 @@
+main
+	add v1,zr,1      ; v1 é o max
+	add v5,zr,25
+	add v8,zr,78
+	add v3,zr,0x40   ; vetor
+	add v4,zr,0x80   ; fim do vetor
+	stw v5,zr,0x42
+	stw v8,zr,0x70 
+
+loop 
+	ldw v6,v3,0x0    ; carrega v[0] para v6
+	blt v6,v1,continuo
+	add v1,v6,0      ; atualiza o max
+continuo 
+	add v3,v3,2      ; avança para o próximo elemento
+	beq v3,v4,endloop
+	beq zr,zr,loop
+
+endloop 
+	stw v1,zr,0x90
+	hlt
